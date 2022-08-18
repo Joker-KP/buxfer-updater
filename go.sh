@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Buxfer update script"
-source /home/joker/miniconda3/bin/activate web
+source ~/miniconda3/bin/activate web
 cd ~/git/buxfer-updater/
 python main.py
 

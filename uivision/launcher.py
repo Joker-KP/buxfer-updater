@@ -40,7 +40,8 @@ def play_and_wait(macro, timeout_seconds=10, use_file_storage=True,
             lines = f.read().splitlines()
             if len(lines) < 1:
                 status_text = "Empty log file"
-            status_text = lines[0]
+            else:
+                status_text = lines[0]
 
         if 'Status=OK' in status_text:
             for line in lines:
@@ -49,6 +50,7 @@ def play_and_wait(macro, timeout_seconds=10, use_file_storage=True,
                     full_path = os.path.join(path_download_dir, matches[1])
                     if os.path.exists(full_path):
                         result['file'] = full_path
+                        # TODO: all is fine so we may remove the log file from downloads
                     else:
                         result["warning"] = f"Downloaded file {full_path} not found."
 
