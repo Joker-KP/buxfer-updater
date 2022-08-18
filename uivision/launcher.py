@@ -36,8 +36,8 @@ def play_and_wait(macro, timeout_seconds=10, use_file_storage=True,
     storage = "xfile" if use_file_storage else "browser"
     args = f'file:///{path_autorun_html}?macro={macro}' + \
            f'&closeRPA=1&closeBrowser=1&direct=1&storage={storage}&savelog={log}'
-    ff_stdout = open('ff_stdout.txt', 'wt')
-    ff_stderr = open('ff_stderr.txt', 'wt')
+    ff_stdout = open(os.path.join(path_download_dir, 'ff_stdout.txt'), 'wt')
+    ff_stderr = open(os.path.join(path_download_dir, 'ff_stderr.txt'), 'wt')
     proc = subprocess.Popen([browser_path, args], stdout=ff_stdout, stderr=ff_stderr)
 
     runtime_seconds = 0

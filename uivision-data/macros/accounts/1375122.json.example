@@ -1,0 +1,168 @@
+{
+  "Name": "1375122",
+  "CreationDate": "2022-8-18",
+  "Commands": [
+    {
+      "Command": "store",
+      "Target": "60",
+      "Value": "!timeout_download",
+      "Description": ""
+    },
+    {
+      "Command": "store",
+      "Target": "20",
+      "Value": "!timeout_wait",
+      "Description": ""
+    },
+    {
+      "Command": "store",
+      "Target": "3000",
+      "Value": "big_pause_period",
+      "Description": ""
+    },
+    {
+      "Command": "comment",
+      "Target": "Citibank PL login",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "store",
+      "Target": "SLOW",
+      "Value": "!replayspeed",
+      "Description": ""
+    },
+    {
+      "Command": "open",
+      "Target": "https://www.citibankonline.pl/apps/auth/signin/",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=username_input",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=username_input",
+      "Value": "__PLACEHOLDER__",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=password_input",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=password_input",
+      "Value": "__PLACEHOLDER__",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=submit_body",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "comment",
+      "Target": "click // xpath=//*[@id=\"SignonForm\"]/div[7]",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "${big_pause_period}",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "comment",
+      "Target": "first checking statement",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=accounts_root",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "xpath=//*[@id=\"0\"]/div[2]/div[3]/div/h4",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "linkText=Wyszukaj transakcje@POS=2",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=durationFilter_input",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "select",
+      "Target": "id=durationFilter_input",
+      "Value": "label=Ostatni tydzień",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "xpath=//*[@id=\"durationFilter_input\"]/option[2]",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "xpath=//*[@id=\"subapp-transaction-links\"]/div/div/a[2]/i",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "xpath=//div[2]/div[2]/div/div/div/div",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "onDownload",
+      "Target": "",
+      "Value": "true",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "xpath=//div[2]/div/ul/li[5]/div",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "echo",
+      "Target": "File downloaded: ${!LAST_DOWNLOADED_FILE_NAME}",
+      "Value": "blue",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "linkText=Wyloguj",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "${big_pause_period}",
+      "Value": "",
+      "Description": ""
+    }
+  ]
+}

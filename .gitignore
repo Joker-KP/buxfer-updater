@@ -1,4 +1,6 @@
 secrets.yaml
+uivision-data/macros/accounts/*.json
+uivision-data/logs/
 
 ### Python template
 # Byte-compiled / optimized / DLL files
