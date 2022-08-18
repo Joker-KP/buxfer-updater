@@ -1,7 +1,14 @@
+attrs==21.4.0
 certifi @ file:///opt/conda/conda-bld/certifi_1655968806487/work/certifi
 charset-normalizer==2.1.0
+clize==4.2.1
 cryptocode==0.1
+docutils==0.17.1
 idna==3.3
+od==2.0.2
 pycryptodomex==3.15.0
+PyYAML==6.0
 requests==2.28.1
+sigtools==4.0.0
+six==1.16.0
 urllib3==1.26.11
