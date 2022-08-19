@@ -1,5 +1,4 @@
 attrs==21.4.0
-certifi @ file:///opt/conda/conda-bld/certifi_1655968806487/work/certifi
 charset-normalizer==2.1.0
 clize==4.2.1
 cryptocode==0.1
