@@ -38,14 +38,18 @@ class TestUploadStatement:
 
     @pytest.fixture()
     def buxfer_api(self, requests_mock):
+        # setup
         user = 'user'
         password = 'pass'
         requests_mock.get(Buxfer.TOKEN_URL.format(Buxfer.BASE_URL, user, password),
                           json={'response': {'status': 'OK', 'token': 'SOME-TOKEN'}})
         yield Buxfer(user, password)
+        # teardown
 
     def test_proper_upload(self, requests_mock, buxfer_api):
         requests_mock.post(Buxfer.UPLOAD_URL.format(Buxfer.BASE_URL),
                            json={'response': {'status': 'OK'}})
         result = buxfer_api.upload_statement(123, 'AAA')
         assert result is True
+
+    # TODO: more tests here
