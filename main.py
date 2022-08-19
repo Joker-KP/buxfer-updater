@@ -1,10 +1,11 @@
 import hashlib
 import os
 import re
+import sys
 
 import clize
 
-from buxfer.api import upload_statement, get_token
+from buxfer.api import Buxfer
 from buxfer.filters import filter_content
 from config import Configuration, buxfer_auth_data, update_secrets
 from uivision.launcher import download_statement
@@ -32,7 +33,7 @@ def get_account_folders(account_data_dir):
     return result
 
 
-def folders_walk(token, config):
+def folders_walk(buxfer_api, config):
     folders = get_account_folders(config.account_data_dir)
     for folder in folders:
         account_id = folder['account_id']
@@ -58,7 +59,7 @@ def folders_walk(token, config):
                     with open(statement_file, "r") as file:
                         statement_content = file.read()
                     statement_content = filter_content(entry, statement_content, extension_filter)
-                    if upload_statement(token, account_id, statement_content):
+                    if buxfer_api.upload_statement(account_id, statement_content):
                         # // if ok -> keep md5 (no further uploads of this file)
                         print("OK")
                         md5content += f"{md5hash}\n"
@@ -85,14 +86,18 @@ def main(*,
 
     print('Started...')
     username, password = buxfer_auth_data(config.salt)
-    token = get_token(username, password)
-    if token is not None:
-        folders_walk(token, config)
+    buxfer_api = Buxfer(username, password)
+    if buxfer_api.is_logged_in():
+        folders_walk(buxfer_api, config)
 
 
 if __name__ == '__main__':
+    if not sys.version_info >= (3, 5):
+        print("Older platforms may not work correctly with this code.\n"
+              "The solution was developed using Python 3.9.\n"
+              "Please, consider an update.")
+
     clize.run(main)
-    pass
 
     # username, password = get_buxfer_auth_data()
     # print(username, password)

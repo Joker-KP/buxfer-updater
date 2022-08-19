@@ -1,52 +1,52 @@
-import sys
 from urllib.error import HTTPError, URLError
 
 import requests
 
-base = "https://www.buxfer.com/api"
-upload_url = "{}/upload_statement"
-token_url = "{}/login?userid={}&password={}"
 
+class Buxfer:
 
-def check_error(response):
-    result = response.json()
-    if 'error' in result and 'message' in result['error']:
-        print(f"ERROR: {result['error']['message']}")
-        sys.exit(1)
-    response = result['response']
-    if response['status'] != "OK":
-        print("An error occurred: %s" % response['status'].replace('ERROR: ', ''))
-        sys.exit(1)
-    return response
+    BASE_URL = "https://www.buxfer.com/api"
+    UPLOAD_URL = "{}/upload_statement"
+    TOKEN_URL = "{}/login?userid={}&password={}"
 
+    token = None
 
-def get_token(user, password):
-    try:
-        with requests.get(token_url.format(base, user, password)) as response:
-            response = check_error(response)
-            return response['token']
-    except HTTPError as error:
-        print(f'HTTP error occurred: {error.code} {error.reason}')
-    except URLError as error:
-        print(error.reason)
-    except Exception as err:
-        print(f'Other error occurred: {err}')
+    @staticmethod
+    def check_error(response):
+        response.raise_for_status()
+        result = response.json()
+        if 'error' in result and 'message' in result['error']:
+            raise ValueError(f"ERROR: {result['error']['message']}")
+        response = result['response']
+        if response['status'] != "OK":
+            raise ValueError(response['status'])
+        return response
 
+    def __init__(self, user, password):
+        with requests.get(self.TOKEN_URL.format(self.BASE_URL, user, password)) as response:
+            response = self.check_error(response)
+            self.token = response['token']
 
-def upload_statement(token, account_id, statement):
-    data = {
-        'token': token,
-        'accountId': account_id,
-        'statement': statement,
-        'dateFormat': "DD/MM/YY",
-    }
-    try:
-        with requests.post(upload_url.format(base), json=data) as response:
-            response = check_error(response)
-            return response['status'] == 'OK'
-    except HTTPError as error:
-        print(f'HTTP error occurred: {error.code} {error.reason}')
-    except URLError as error:
-        print(error.reason)
-    except Exception as err:
-        print(f'Other error occurred: {err}')
+    def is_logged_in(self):
+        return self.token is not None
+
+    def upload_statement(self, account_id, statement):
+        if self.token is None:
+            raise RuntimeError("You must first log in properly.")
+
+        data = {
+            'token': self.token,
+            'accountId': account_id,
+            'statement': statement,
+            'dateFormat': "DD/MM/YY",
+        }
+        try:
+            with requests.post(self.UPLOAD_URL.format(self.BASE_URL), json=data) as response:
+                response = self.check_error(response)
+                return response['status'] == 'OK'
+        except HTTPError as error:
+            print(f'HTTP error occurred: {error.code} {error.reason}')
+        except URLError as error:
+            print(error.reason)
+        except Exception as err:
+            print(f'Other error occurred: {err}')
