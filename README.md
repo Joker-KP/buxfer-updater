@@ -1,4 +1,9 @@
-# Buxfer updater
+# BuxSync
+
+---
+
+![](https://github.com/Joker-KP/buxfer-updater/workflows/BuxSync/badge.svg)
+
 
 Set of scripts to login into bank account, download statement file and upload it to buxfer.com.
 Useful for bank accounts not supported for sync in Buxfer.
