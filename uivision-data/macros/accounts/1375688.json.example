@@ -1,5 +1,5 @@
 {
-  "Name": "1375122",
+  "Name": "1375688",
   "CreationDate": "2022-8-20",
   "Commands": [
     {
@@ -22,7 +22,7 @@
     },
     {
       "Command": "comment",
-      "Target": "Citibank PL login",
+      "Target": "Nest Bank PL login",
       "Value": "",
       "Description": ""
     },
@@ -34,25 +34,37 @@
     },
     {
       "Command": "open",
-      "Target": "https://www.citibankonline.pl/apps/auth/signin/",
+      "Target": "https://login.nestbank.pl/login",
       "Value": "",
       "Description": ""
     },
     {
       "Command": "type",
-      "Target": "id=username_input",
-      "Value": "__PLACEHOLDER__",
-      "Description": ""
-    },
-    {
-      "Command": "type",
-      "Target": "id=password_input",
+      "Target": "id=username",
       "Value": "__PLACEHOLDER__",
       "Description": ""
     },
     {
       "Command": "click",
-      "Target": "id=submit_body",
+      "Target": "xpath=//*[@id=\"app\"]/section/main/section/div/div/div/div/button",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "XClick",
+      "Target": "kkhhcy_dpi_96.png",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=password",
+      "Value": "__PLACEHOLDER__",
+      "Description": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "xpath=//*[@id=\"app\"]/section/main/section/div/div/div/div[4]/button[2]",
       "Value": "",
       "Description": ""
     },
@@ -64,55 +76,49 @@
     },
     {
       "Command": "comment",
-      "Target": "first checking statement",
+      "Target": "family savings statement",
       "Value": "",
       "Description": ""
     },
     {
       "Command": "click",
-      "Target": "id=accounts_root",
+      "Target": "linkText=Oszczędności",
       "Value": "",
       "Description": ""
     },
     {
       "Command": "click",
-      "Target": "xpath=//*[@id=\"0\"]/div[2]/div[3]/div/h4",
+      "Target": "xpath=//*[@id=\"sticky-header\"]/div[3]/div[2]/section[5]/section/div/div/div/ul/li[3]/a/div/p/span/span",
       "Value": "",
       "Description": ""
     },
     {
       "Command": "click",
-      "Target": "linkText=Wyszukaj transakcje@POS=2",
+      "Target": "xpath=//*[@id=\"account-history\"]/div/div/div[3]/div/div[2]/div[2]/div/div/button",
       "Value": "",
       "Description": ""
     },
     {
       "Command": "click",
-      "Target": "id=durationFilter_input",
-      "Value": "",
-      "Description": ""
-    },
-    {
-      "Command": "select",
-      "Target": "id=durationFilter_input",
-      "Value": "label=Ostatni tydzień",
-      "Description": ""
-    },
-    {
-      "Command": "click",
-      "Target": "xpath=//*[@id=\"durationFilter_input\"]/option[2]",
+      "Target": "id=rw_6_listbox__option__6",
       "Value": "",
       "Description": ""
     },
     {
       "Command": "click",
-      "Target": "xpath=//*[@id=\"subapp-transaction-links\"]/div/div/a[2]/i",
+      "Target": "xpath=//*[@id=\"account-history\"]/div/div[2]/div/div/ul/li/div/span/span[2]",
       "Value": "",
       "Description": ""
     },
     {
       "Command": "click",
-      "Target": "xpath=//div[2]/div[2]/div/div/div/div",
+      "Target": "id=rw_9_input",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=rw_9_listbox__option__1",
       "Value": "",
       "Description": ""
     },
@@ -124,7 +130,7 @@
     },
     {
       "Command": "click",
-      "Target": "xpath=//div[2]/div/ul/li[5]/div",
+      "Target": "xpath=//*[@id=\"account-history\"]/div/div[3]/div/div[2]/div[3]/button[2]",
       "Value": "",
       "Description": ""
     },
@@ -136,7 +142,13 @@
     },
     {
       "Command": "click",
-      "Target": "linkText=Wyloguj",
+      "Target": "xpath=//*[@id=\"account-history\"]/div/div[3]/div/div[2]/div[3]/button",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "xpath=//*[@id=\"sticky-header\"]/div[2]/ul[2]/li[3]/div/button",
       "Value": "",
       "Description": ""
     },

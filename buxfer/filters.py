@@ -17,8 +17,26 @@ def filter_content(filename, extension_filter):
             extension = filename[-len(extension_filter):]
             print(f"Warning: incoherent statement file extension ({extension} vs csv)")
         return convert_from_credit_agricole_csv(filename)
+    elif extension_filter == "nest":
+        if not filename.endswith("csv"):
+            extension = filename[-len(extension_filter):]
+            print(f"Warning: incoherent statement file extension ({extension} vs csv)")
+        return convert_from_nest_bank_csv(filename)
 
     raise RuntimeError(f"Error: Unknown filter used: {extension_filter}")
+
+
+class NestBankTrans(NamedTuple):
+    book_date: str  # Book date
+    operation_date: str  # Operation date
+    operation_type: str  # Operation type
+    amount: str  # Amount
+    currency: str  # Currency
+    recipient: str  # Counterparty name and address
+    recipient_account_no: str  # Counterparty account
+    title: str  # Title
+    total_after: str  # Balance after operation
+    empty: str
 
 
 class CreditAgricoleTrans(NamedTuple):
@@ -75,6 +93,16 @@ def convert_credit_agricole_item(item: CreditAgricoleTrans):
     return f"D{date}\nP{desc}\nT{amount}\nC*\n^\n"
 
 
+def convert_nest_bank_item(item: NestBankTrans):
+    input_format = "%d-%m-%Y"
+    output_format = "%d/%m/%y"
+    date = datetime.strptime(item.operation_date, input_format).strftime(output_format)
+    amount = re.sub('[^-0-9\.]', '', item.amount)
+    spaces = "     "
+    desc = f"{item.title}{spaces}{item.recipient} {item.recipient_account_no}"
+    return f"D{date}\nP{desc}\nT{amount}\nC*\n^\n"
+
+
 def read_qif(filename):
     encoding = autodetect_encoding(filename)
     with open(filename, "rt", encoding=encoding) as file:
@@ -88,6 +116,14 @@ def convert_from_credit_agricole_csv(filename):
     result = "!Type:Bank\n"
     for item in items:
         result += convert_credit_agricole_item(item)
+    return result
+
+
+def convert_from_nest_bank_csv(filename):
+    items = transactions_from_csv(filename, NestBankTrans, skip_headers=7, delim=',')
+    result = "!Type:Bank\n"
+    for item in items:
+        result += convert_nest_bank_item(item)
     return result
 
 

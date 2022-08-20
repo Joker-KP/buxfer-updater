@@ -1,6 +1,6 @@
 {
   "Name": "1373670",
-  "CreationDate": "2022-8-18",
+  "CreationDate": "2022-8-20",
   "Commands": [
     {
       "Command": "store",
@@ -39,21 +39,9 @@
       "Description": ""
     },
     {
-      "Command": "click",
-      "Target": "id=username_input",
-      "Value": "",
-      "Description": ""
-    },
-    {
       "Command": "type",
       "Target": "id=username_input",
       "Value": "__PLACEHOLDER__",
-      "Description": ""
-    },
-    {
-      "Command": "click",
-      "Target": "id=password_input",
-      "Value": "",
       "Description": ""
     },
     {

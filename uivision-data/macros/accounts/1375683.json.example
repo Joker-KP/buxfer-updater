@@ -1,5 +1,5 @@
 {
-  "Name": "1375122",
+  "Name": "1375683",
   "CreationDate": "2022-8-20",
   "Commands": [
     {
@@ -22,7 +22,7 @@
     },
     {
       "Command": "comment",
-      "Target": "Citibank PL login",
+      "Target": "Credit Agricole PL login",
       "Value": "",
       "Description": ""
     },
@@ -34,25 +34,31 @@
     },
     {
       "Command": "open",
-      "Target": "https://www.citibankonline.pl/apps/auth/signin/",
+      "Target": "https://ca24.credit-agricole.pl/web-ca24/login/login",
       "Value": "",
       "Description": ""
     },
     {
       "Command": "type",
-      "Target": "id=username_input",
-      "Value": "__PLACEHOLDER__",
-      "Description": ""
-    },
-    {
-      "Command": "type",
-      "Target": "id=password_input",
+      "Target": "id=login",
       "Value": "__PLACEHOLDER__",
       "Description": ""
     },
     {
       "Command": "click",
-      "Target": "id=submit_body",
+      "Target": "id=login-user-click-button",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=password",
+      "Value": "__PLACEHOLDER__",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=login-pass-click-button",
       "Value": "",
       "Description": ""
     },
@@ -64,55 +70,19 @@
     },
     {
       "Command": "comment",
-      "Target": "first checking statement",
+      "Target": "checking statement",
       "Value": "",
       "Description": ""
     },
     {
       "Command": "click",
-      "Target": "id=accounts_root",
+      "Target": "xpath=//*[@id=\"desktop-menu\"]/ul/li[4]/a/span",
       "Value": "",
       "Description": ""
     },
     {
       "Command": "click",
-      "Target": "xpath=//*[@id=\"0\"]/div[2]/div[3]/div/h4",
-      "Value": "",
-      "Description": ""
-    },
-    {
-      "Command": "click",
-      "Target": "linkText=Wyszukaj transakcje@POS=2",
-      "Value": "",
-      "Description": ""
-    },
-    {
-      "Command": "click",
-      "Target": "id=durationFilter_input",
-      "Value": "",
-      "Description": ""
-    },
-    {
-      "Command": "select",
-      "Target": "id=durationFilter_input",
-      "Value": "label=Ostatni tydzień",
-      "Description": ""
-    },
-    {
-      "Command": "click",
-      "Target": "xpath=//*[@id=\"durationFilter_input\"]/option[2]",
-      "Value": "",
-      "Description": ""
-    },
-    {
-      "Command": "click",
-      "Target": "xpath=//*[@id=\"subapp-transaction-links\"]/div/div/a[2]/i",
-      "Value": "",
-      "Description": ""
-    },
-    {
-      "Command": "click",
-      "Target": "xpath=//div[2]/div[2]/div/div/div/div",
+      "Target": "xpath=//*[@id=\"historyDetailsCol\"]/div/a[2]/span",
       "Value": "",
       "Description": ""
     },
@@ -124,7 +94,7 @@
     },
     {
       "Command": "click",
-      "Target": "xpath=//div[2]/div/ul/li[5]/div",
+      "Target": "linkText=Pobierz@POS=2",
       "Value": "",
       "Description": ""
     },
@@ -136,7 +106,7 @@
     },
     {
       "Command": "click",
-      "Target": "linkText=Wyloguj",
+      "Target": "id=logoutText",
       "Value": "",
       "Description": ""
     },
