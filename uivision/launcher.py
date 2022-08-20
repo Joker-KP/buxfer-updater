@@ -9,9 +9,9 @@ import time
 def download_statement(account_folder, account_id, config):
     ui_result = play_and_wait(f'accounts/{account_id}', timeout_seconds=config.ui_vision_account_timeout,
                               use_file_storage=config.ui_vision_file_storage,
-                              path_download_dir=config.ff_download_dir,
+                              path_download_dir=config.browser_download_dir,
                               path_autorun_html=config.ui_vision_init_html,
-                              browser_path=config.ff_bin)
+                              browser_path=config.browser_bin)
     if 'file' not in ui_result:
         print("Problem with UI.Vision result:", ui_result['status'])
         return

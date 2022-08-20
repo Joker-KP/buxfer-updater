@@ -12,8 +12,8 @@ class Configuration:
             self.config = yaml.safe_load(file)
 
         self.account_data_dir = self.get_key('general', 'account_data_dir', 'data')
-        self.ff_bin = self.get_key('firefox', 'exec', get_ff_binary())
-        self.ff_download_dir = self.get_key('firefox', 'download_dir', get_ff_download_dir())
+        self.browser_bin = self.get_key('browser', 'exec', get_ff_binary())
+        self.browser_download_dir = self.get_key('browser', 'download_dir', get_ff_download_dir())
         self.ui_vision_init_html = os.path.abspath(self.get_key('uivision', 'init_file', 'uivision/ui.vision.html'))
         self.ui_vision_file_storage = self.get_key('uivision', 'use_file_storage', True)
         self.ui_vision_account_timeout = self.get_key('uivision', 'account_timeout', 60)

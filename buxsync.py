@@ -11,17 +11,17 @@ from config import Configuration, buxfer_auth_data, update_secrets
 from uivision.launcher import download_statement
 
 
-def md5(path):
-    with open(path, "rb") as f:
+def md5(file_path: str):
+    with open(file_path, "rb") as file:
         file_hash = hashlib.md5()
-        while chunk := f.read(8192):
+        while chunk := file.read(8192):
             file_hash.update(chunk)
     return file_hash.hexdigest()
 
 
-def get_account_folders(account_data_dir):
+def get_account_folders(account_data_dir: str):
     result = []
-    pattern = r'([^\[]+)\[([\d]+);([^\]]+)]'
+    pattern = r'([^\[]+)\[([\d]+);([^\]]+)]$'
     for entry in os.listdir(account_data_dir):
         if os.path.isdir(account_data_dir + '/' + entry):
             matches = re.match(pattern, entry)
@@ -56,9 +56,7 @@ def folders_walk(buxfer_api, config):
                 md5hash = md5(statement_file)
                 if md5hash not in md5content:
                     print(f"-- Uploading {entry}...", end='')
-                    with open(statement_file, "r") as file:
-                        statement_content = file.read()
-                    statement_content = filter_content(entry, statement_content, extension_filter)
+                    statement_content = filter_content(statement_file, extension_filter)
                     if buxfer_api.upload_statement(account_id, statement_content):
                         # // if ok -> keep md5 (no further uploads of this file)
                         print("OK")
@@ -98,15 +96,3 @@ if __name__ == '__main__':
               "Please, consider an update.")
 
     clize.run(main)
-
-    # username, password = get_buxfer_auth_data()
-    # print(username, password)
-
-    # r = play_and_wait('Accounts/1373670', timeout_seconds=default_timeout,
-    #                    path_download_dir=ff_download_dir,
-    #                    path_autorun_html=ui_vision_init,
-    #                    browser_path=ff_bin)
-    #
-    # print(r)
-    # if 'file' in r:
-    #      print("DOWNLOAD FINE")

@@ -1,4 +1,5 @@
 attrs==21.4.0
+cchardet==2.1.7
 charset-normalizer==2.1.0
 clize==4.2.1
 cryptocode==0.1
