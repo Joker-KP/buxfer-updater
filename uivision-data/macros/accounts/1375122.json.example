@@ -21,9 +21,9 @@
       "Description": ""
     },
     {
-      "Command": "comment",
+      "Command": "echo",
       "Target": "Citibank PL login",
-      "Value": "",
+      "Value": "green",
       "Description": ""
     },
     {
@@ -63,9 +63,9 @@
       "Description": ""
     },
     {
-      "Command": "comment",
-      "Target": "first checking statement",
-      "Value": "",
+      "Command": "echo",
+      "Target": "First checking statement",
+      "Value": "green",
       "Description": ""
     },
     {

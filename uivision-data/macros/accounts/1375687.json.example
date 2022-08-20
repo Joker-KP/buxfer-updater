@@ -21,9 +21,9 @@
       "Description": ""
     },
     {
-      "Command": "comment",
+      "Command": "echo",
       "Target": "Nest Bank PL login",
-      "Value": "",
+      "Value": "green",
       "Description": ""
     },
     {
@@ -63,7 +63,7 @@
       "Description": ""
     },
     {
-      "Command": "clickAndWait",
+      "Command": "click",
       "Target": "xpath=//*[@id=\"app\"]/section/main/section/div/div/div/div[4]/button[2]",
       "Value": "",
       "Description": ""
@@ -75,9 +75,9 @@
       "Description": ""
     },
     {
-      "Command": "comment",
-      "Target": "savings statement",
-      "Value": "",
+      "Command": "echo",
+      "Target": "Savings statement",
+      "Value": "green",
       "Description": ""
     },
     {
@@ -147,7 +147,7 @@
       "Description": ""
     },
     {
-      "Command": "clickAndWait",
+      "Command": "click",
       "Target": "xpath=//*[@id=\"sticky-header\"]/div[2]/ul[2]/li[3]/div/button",
       "Value": "",
       "Description": ""

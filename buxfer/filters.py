@@ -76,9 +76,9 @@ class CreditAgricoleTrans(NamedTuple):
 
 
 def convert_credit_agricole_item(item: CreditAgricoleTrans):
-    input_format = "%d.%m.%Y"
+    input_format = "%d.%m.%Y %H:%M:%S"
     output_format = "%d/%m/%y"
-    date = datetime.strptime(item.operation_date, input_format).strftime(output_format)
+    date = datetime.strptime(item.operation_book_date, input_format).strftime(output_format)
 
     amount = item.amount.replace(',', '.')
     amount = re.sub('[^-0-9\.]', '', amount)
