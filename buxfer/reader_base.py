@@ -1,3 +1,4 @@
+import inspect
 import re
 from collections import namedtuple
 from datetime import datetime
@@ -38,6 +39,8 @@ class StatementReaderBase:
     # initialization moved from __init__ method here
     # to prevent subsequent "creations" to change the initial values of the <singleton children>
     def _init(self, config_path=None):
+        if not config_path:
+            config_path = inspect.getfile(self.__class__).replace(".py", ".yaml")
         self.selected_idx = []  # idx of columns in CSV
         self.selected_names = []
         with open(config_path, 'r') as file:

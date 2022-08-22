@@ -1,5 +1,4 @@
 import importlib
-import inspect
 import os
 import pkgutil
 
@@ -16,8 +15,7 @@ def all_readers():
         importlib.import_module(f'.{subfolder}.' + name, __package__)
     # after the import subclasses collection is available
     for subclass in StatementReaderBase.__subclasses__():
-        config_path = inspect.getfile(subclass).replace(".py", ".yaml")
-        readers += [subclass(config_path)]
+        readers += [subclass(None)]
     return readers
 
 

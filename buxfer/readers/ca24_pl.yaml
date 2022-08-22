@@ -3,36 +3,14 @@ input_extension: '.csv'
 skip_headers: 1
 delimiter: ';'
 fields:
-#    - [0, 'account_from']
     - [1, 'category']
-#    - [2, 'created_in']
-#    - [3, 'transaction_type']
-#    - [4, 'account_no']
     - [5, 'sender']
-#    - [6, 'sender_address']
-#    - [7, 'sender_country']
     - [8, 'sender_account_no']
-#    - [9, 'sender_short_no']
     - [10, 'recipient']
-#    - [11, 'recipient_bic']
-#    - [12, 'recipient_bank_name']
-#    - [13, 'recipient_address']
-#    - [14, 'recipient_country']
     - [15, 'recipient_account_no']
-#    - [16, 'recipient_short_no']
     - [17, 'title']
-#    - [18, 'payer']
-#    - [68, 'operation']
-#    - [69, 'operation_date']
     - [70, 'operation_book_date']
     - [81, 'amount']
-#    - [82, 'commission']
-#    - [83, 'commission_account']
-#    - [84, 'balance']
-#    - [85, 'description']
-#    - [86, 'service']
-#    - [87, 'transfer_id']
-#    - [88, 'blik_id']
 converter:
     amount_source: 'amount'
     date_source: 'operation_book_date'
