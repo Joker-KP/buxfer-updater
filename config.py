@@ -12,6 +12,9 @@ class Configuration:
             self.config = yaml.safe_load(file)
 
         self.account_data_dir = self.get_key('general', 'account_data_dir', 'data')
+        self.folder_filter = self.get_key('general', 'folder_filter', '')
+        self.no_download = self.get_key('general', 'no_download', False)
+        self.no_upload = self.get_key('general', 'no_upload', False)
         self.browser_bin = self.get_key('browser', 'exec', get_ff_binary())
         self.browser_download_dir = self.get_key('browser', 'download_dir', get_ff_download_dir())
         self.ui_vision_init_html = os.path.abspath(self.get_key('uivision', 'init_file', 'uivision/ui.vision.html'))

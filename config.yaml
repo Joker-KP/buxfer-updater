@@ -1,5 +1,8 @@
 general:
   account_data_dir: 'data'  # where sub-folders represent accounts and keep statements to upload
+  folder_filter: ''         # when set includes in processing only folders that contain given filter
+  no_upload: false          # if true statements won't be uploaded to Buxfer
+  no_download: false        # if true statements won't be downloaded from bank accounts
 uivision:
   account_timeout: 120      # in seconds
   use_file_storage: true    # if false all UI Vision scripts should be available in browser storage
