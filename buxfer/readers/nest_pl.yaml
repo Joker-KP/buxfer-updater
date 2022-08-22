@@ -1,0 +1,19 @@
+identifier: 'nest'
+input_extension: '.csv'
+skip_headers: 7
+delimiter: ','
+fields:
+    - [0, 'book_date']
+    - [1, 'operation_date']
+    - [2, 'operation_type']
+    - [3, 'amount']
+    - [4, 'currency']
+    - [5, 'recipient']
+    - [6, 'recipient_account_no']
+    - [7, 'title']
+    - [8, 'total_after']
+converter:
+    amount_source: 'amount'
+    date_source: 'operation_date'
+    date_input_format: '%d-%m-%Y'
+    description_source: '{title}     {recipient} {recipient_account_no}'

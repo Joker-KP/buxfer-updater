@@ -1,9 +1,8 @@
-import csv
 import re
 from datetime import datetime
 from typing import NamedTuple
 
-import cchardet
+from buxfer.loaders import load_qif, load_csv_items
 
 
 def filter_content(filename, extension_filter):
@@ -11,7 +10,7 @@ def filter_content(filename, extension_filter):
         if not filename.endswith("qif"):
             extension = filename[-len(extension_filter):]
             print(f"Warning: incoherent statement file extension ({extension} vs {extension_filter})")
-        return read_qif(filename)
+        return load_qif(filename)
     elif extension_filter == "ca24":
         if not filename.endswith("csv"):
             extension = filename[-len(extension_filter):]
@@ -103,16 +102,9 @@ def convert_nest_bank_item(item: NestBankTrans):
     return f"D{date}\nP{desc}\nT{amount}\nC*\n^\n"
 
 
-def read_qif(filename):
-    encoding = autodetect_encoding(filename)
-    with open(filename, "rt", encoding=encoding) as file:
-        statement_content = file.read()
-    return statement_content
-
-
 def convert_from_credit_agricole_csv(filename):
     selected_columns = [*range(0, 19), *range(68, 71), *range(81, 89)]
-    items = transactions_from_csv(filename, CreditAgricoleTrans, skip_headers=1, selected_columns=selected_columns)
+    items = load_csv_items(filename, CreditAgricoleTrans, skip_headers=1, selected_columns=selected_columns)
     result = "!Type:Bank\n"
     for item in items:
         result += convert_credit_agricole_item(item)
@@ -120,34 +112,41 @@ def convert_from_credit_agricole_csv(filename):
 
 
 def convert_from_nest_bank_csv(filename):
-    items = transactions_from_csv(filename, NestBankTrans, skip_headers=7, delim=',')
+    items = load_csv_items(filename, NestBankTrans, skip_headers=7, delim=',')
     result = "!Type:Bank\n"
     for item in items:
         result += convert_nest_bank_item(item)
     return result
 
-
-def autodetect_encoding(filename):
-    with open(filename, "rb") as file:
-        content = file.read()
-    detection = cchardet.detect(content)
-    if detection['confidence'] < 0.5:
-        raise ValueError("Could not detect proper encoding")
-    return detection['encoding']
-
-
-def transactions_from_csv(csv_path, row_type, encoding=None, skip_headers=0, selected_columns=None, delim=';'):
-    encoding = autodetect_encoding(csv_path) if encoding is None else encoding
-    transactions = []
-    with open(csv_path, "rt", encoding=encoding) as datasets:
-        csv_reader = csv.reader(datasets, delimiter=delim)
-        for i in range(skip_headers):
-            next(csv_reader)
-        for row_data in csv_reader:
-            if selected_columns is not None:
-                selected_data = [row_data[i] for i in selected_columns]
-                transaction = row_type(*selected_data)
-            else:
-                transaction = row_type(*row_data)
-            transactions += [transaction]
-    return transactions
+#
+# def read_qif(filename):
+#     encoding = autodetect_encoding(filename)
+#     with open(filename, "rt", encoding=encoding) as file:
+#         statement_content = file.read()
+#     return statement_content
+#
+#
+# def autodetect_encoding(filename):
+#     with open(filename, "rb") as file:
+#         content = file.read()
+#     detection = cchardet.detect(content)
+#     if detection['confidence'] < 0.5:
+#         raise ValueError("Could not detect proper encoding")
+#     return detection['encoding']
+#
+#
+# def transactions_from_csv(csv_path, row_type, encoding=None, skip_headers=0, selected_columns=None, delim=';'):
+#     encoding = autodetect_encoding(csv_path) if encoding is None else encoding
+#     transactions = []
+#     with open(csv_path, "rt", encoding=encoding) as datasets:
+#         csv_reader = csv.reader(datasets, delimiter=delim)
+#         for i in range(skip_headers):
+#             next(csv_reader)
+#         for row_data in csv_reader:
+#             if selected_columns is not None:
+#                 selected_data = [row_data[i] for i in selected_columns]
+#                 transaction = row_type(*selected_data)
+#             else:
+#                 transaction = row_type(*row_data)
+#             transactions += [transaction]
+#     return transactions
