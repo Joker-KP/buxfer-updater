@@ -9,6 +9,7 @@ import time
 def download_statement(account_folder, account_id, config):
     ui_result = play_and_wait(f'accounts/{account_id}', timeout_seconds=config.ui_vision_account_timeout,
                               use_file_storage=config.ui_vision_file_storage,
+                              keep_logs=config.ui_vision_keep_logs,
                               path_download_dir=config.browser_download_dir,
                               path_autorun_html=config.ui_vision_init_html,
                               browser_path=config.browser_bin)
@@ -23,7 +24,7 @@ def download_statement(account_folder, account_id, config):
     os.rename(downloaded, target)
 
 
-def play_and_wait(macro, timeout_seconds=10, use_file_storage=True,
+def play_and_wait(macro, timeout_seconds=10, use_file_storage=True, keep_logs=True,
                   path_download_dir=None, path_autorun_html=None, browser_path=None):
     assert os.path.exists(path_download_dir)
     assert os.path.exists(path_autorun_html)
@@ -67,7 +68,8 @@ def play_and_wait(macro, timeout_seconds=10, use_file_storage=True,
                     full_path = os.path.join(path_download_dir, matches[1])
                     if os.path.exists(full_path):
                         result['file'] = full_path
-                        # TODO: all is fine so we may remove the log file from downloads
+                        if not keep_logs:
+                            os.remove(log_full_path)
                     else:
                         result["warning"] = f"Downloaded file {full_path} not found."
 

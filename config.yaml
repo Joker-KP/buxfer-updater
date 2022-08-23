@@ -7,6 +7,7 @@ uivision:
   account_timeout: 120      # in seconds
   use_file_storage: true    # if false all UI Vision scripts should be available in browser storage
   init_file: ""             # the file can be generated with add-on (the default is preconfigured in repo)
+  keep_logs: true           # if false it will remove current log after successful download
 browser:
   exec: ""                  # default: which firefox
   download_dir: ""          # searched in firefox profile by default

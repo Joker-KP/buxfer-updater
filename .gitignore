@@ -1,5 +1,6 @@
 secrets.yaml
 uivision-data/macros/accounts/*.json
+uivision-data/screenshots/
 uivision-data/images/
 uivision-data/logs/
 

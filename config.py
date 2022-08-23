@@ -20,6 +20,7 @@ class Configuration:
         self.ui_vision_init_html = os.path.abspath(self.get_key('uivision', 'init_file', 'uivision/ui.vision.html'))
         self.ui_vision_file_storage = self.get_key('uivision', 'use_file_storage', True)
         self.ui_vision_account_timeout = self.get_key('uivision', 'account_timeout', 60)
+        self.ui_vision_keep_logs = self.get_key('uivision', 'keep_logs', True)
         self.salt = self.get_key('security', 'salt', os.getcwd())
 
     def get_key(self, primary_key, secondary_key, default_value):
