@@ -3,7 +3,7 @@ import os
 import cryptocode
 import yaml
 
-from defaults.settings import get_ff_binary, get_ff_download_dir
+from settings.settings import get_ff_binary, get_ff_download_dir
 
 
 class Configuration:

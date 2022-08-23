@@ -5,12 +5,29 @@
 ![](https://github.com/Joker-KP/buxfer-updater/workflows/BuxSync/badge.svg)
 
 
-Set of scripts to login into bank account, download statement file and upload it to buxfer.com.
-Useful for bank accounts not supported for sync in Buxfer.
+Automatically log in to your bank account, download statement file and upload it to
+[buxfer.com](https://www.buxfer.com/). Useful for bank accounts not supported for sync in Buxfer.
+
+# Overview
+
+[Buxfer](https://www.buxfer.com/) is an online money management software for tracking expenses, budgets, etc.
+It can automatically sync your accounts by connecting to your bank or credit card and downloading transactions
+and balances. Over 20,000 banks are supported all across the world. Still...
+
+There are many bank account not available for sync in Buxfer. For these ones, you can only manually enter your
+transactions or upload a statement (set of transactions) in a format that Buxfer understands.
+
+...and here comes **BuxSync**
+
+It can use browser add-on (UI.Vision RPA) to replay your login procedure and statement download
+for any bank you wish. Then it can convert it to the format that is known by Buxfer API,
+and uploads the updated transactions to your Buxfer account.
+
+**It can make ALL your accounts sync automatically with Buxfer!**
 
 # Environment preparation
 
-## Tools you need to start
+## Tools you need
 
 1. Virtual machine with some Debian based linux distribution, for example 
    [Ubuntu](https://ubuntu.com/download) 
@@ -33,6 +50,7 @@ Useful for bank accounts not supported for sync in Buxfer.
 1. Configure Firefox to start with empty tab and not to restore previous session. 
    [screen1] [screen2]
    Make sure download process does not ask for a filename as input [screen3].
+1. Download this repository.
 1. (optional) Install [UI.Vision XModules](https://ui.vision/rpa/x/download).
    Set Home Folder of FileAccess.XModule to `uivision-data` in this repo.
    This will allow you to store your bank login macros on file system (HDD).

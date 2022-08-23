@@ -27,4 +27,3 @@ class MozillaSettings:
             if matches:
                 return str(matches[1])
         return None
-

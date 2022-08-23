@@ -19,7 +19,20 @@ def md5(file_path: str):
     return file_hash.hexdigest()
 
 
-def get_account_folders(account_data_dir: str, folder_filter = ''):
+def get_account_folders(account_data_dir: str, folder_filter=''):
+    """
+    Look for folders which define bank accounts to process. The pattern for sub-folder is
+    "Name [BUXFER_ID;PARSER_ID]"
+    Name is just for easier user reference to these folders. BUXFER_ID is the account id to which you
+    want to upload the statement in your buxfer.com account (click on account in Buxfer and check browser URI
+    - https://www.buxfer.com/account?id=XXX - the XXX part is your id). PARSER_ID defines the way the
+    statement should be preprocessed before sending to buxfer. 'qif' is the default format (it just reads
+    *.qif file and send it further to Buxfer). There are also exemplary implementation for Nest Bank PL ('nest')
+    and Credit Agricole PL ('ca24'). See buxfer/readers folder for details.
+
+    :param account_data_dir: directory path where sub-folders are supposed to define bank accounts/scenarios
+    :param folder_filter: will include only those sub-folders which name includes given filter
+    """
     result = []
     pattern = r'([^\[]+)\[([\d]+);([^\]]+)]$'
     for entry in os.listdir(account_data_dir):
@@ -42,10 +55,12 @@ def folders_walk(buxfer_api, config):
         parser_identifier = folder['reader_id']
         print(f"Folder check: {folder['name']} (id: {account_id}, format: {parser_identifier})")
 
+        # download new statement from online bank
         account_folder = f"{config.account_data_dir}/{folder['entry']}"
         if not config.no_download:
             download_statement(account_folder, account_id, config)
 
+        # keep existing hashes
         md5file = f"{account_folder}/md5s.txt"
         md5content = ""
         if os.path.exists(md5file):
@@ -53,6 +68,7 @@ def folders_walk(buxfer_api, config):
                 md5content = file.read()
         md5orig = md5content
 
+        # if not done before: convert the statement, upload to Buxfer and keep the hash
         for entry in os.listdir(f"{account_folder}"):
             statement_file = f"{account_folder}/{entry}"
             if os.path.isfile(statement_file) and entry != "md5s.txt":

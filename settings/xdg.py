@@ -2,7 +2,7 @@ import shutil
 import subprocess
 
 
-class XdgDirs():
+class XdgDirs:
     """Get user directories with system tool 'xdg-user-dir'"""
     def __init__(self):
         self.xdg_bin = shutil.which('xdg-user-dir')
