@@ -12,11 +12,11 @@ ca24_path = os.path.dirname(__file__) + '/statements/ca24-sample.csv'
 
 def test_autodetect_encoding_1250():
     # NOTE. chardet made it wrong (did report Windows-1252 here); cchardet does it properly
-    assert autodetect_encoding(ca24_path).upper() == "Windows-1250".upper()
+    assert autodetect_encoding(ca24_path).upper() == "WINDOWS-1250"
 
 
 def test_autodetect_encoding_utf():
-    assert autodetect_encoding(nest_path).upper() == "UTF-8".upper()
+    assert autodetect_encoding(nest_path).upper() == "UTF-8"
 
 
 def test_all_readers():

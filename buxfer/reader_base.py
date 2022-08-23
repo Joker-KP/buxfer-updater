@@ -5,7 +5,7 @@ from datetime import datetime
 
 import yaml
 
-from buxfer.loaders import load_csv_items
+from buxfer.loaders import load_csv_items, is_integrity_fine
 
 
 class StatementReaderBase:
@@ -13,11 +13,11 @@ class StatementReaderBase:
     Base class for statement parsers. Each child class is reassured to be a singleton,
     and responsible to convert transactions list from a specific bank (assumed as CSV file)
     to the format that is understandable for the Buxfer API (QIF format as default).
-    May implement any conversion overriding:
+    May implement any conversion with overriding:
     - parse_[field] - to only change the way specific field is prepared
     - convert - to control the whole transaction (single CSV row) conversion
     - process_file - to gain full control over the output format
-    Most cases should be covert by creating only configuration file (single yaml for a CSV file from a specific bank)
+    Most cases should be covered by creating only configuration file (single yaml for a CSV file from a specific bank)
     """
     _instances = {}
 
@@ -88,6 +88,9 @@ class StatementReaderBase:
         return self.qif_item_pattern.format(date=date, description=desc, amount=amount)
 
     def process_file(self, statement_file_path):
+        if not is_integrity_fine(statement_file_path, self.config):
+            raise ValueError('File format probably has changed. Please double check reader configuration file.')
+
         items = load_csv_items(statement_file_path, self.item_type, skip_headers=self.config['skip_headers'],
                                delim=self.config['delimiter'], selected_columns=self.selected_idx)
         result = self.qif_header

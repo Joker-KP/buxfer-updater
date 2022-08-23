@@ -3,15 +3,40 @@ input_extension: '.csv'
 skip_headers: 1
 delimiter: ';'
 fields:
-    - [1, 'category']
-    - [5, 'sender']
-    - [8, 'sender_account_no']
-    - [10, 'recipient']
-    - [15, 'recipient_account_no']
-    - [17, 'title']
-    - [70, 'operation_book_date']
-    - [81, 'amount']
+  - [ 1, 'category' ]
+  - [ 5, 'sender' ]
+  - [ 8, 'sender_account_no' ]
+  - [ 10, 'recipient' ]
+  - [ 15, 'recipient_account_no' ]
+  - [ 17, 'title' ]
+  - [ 70, 'operation_book_date' ]
+  - [ 81, 'amount' ]
 converter:
-    amount_source: 'amount'
-    date_source: 'operation_book_date'
-    date_input_format: '%d.%m.%Y %H:%M:%S'
+  amount_source: 'amount'
+  date_source: 'operation_book_date'
+  date_input_format: '%d.%m.%Y %H:%M:%S'
+
+# Headers in statement (column names) are usually a constant value, so it might be used for integrity check
+# (you will not get rubbish uploaded when bank decides to change the order of columns in their CSV). Optional.
+integrity:
+  line_index: 0
+  line_content: "Z rachunku;Kategoria transakcji;Zlecona w;Rodzaj transakcji;Numer rachunku;Nadawca;Adres;\
+                 Kraj;Rachunek nadawcy;Skrócony numer rachunku;Odbiorca;BIC (kod SWIFT) banku odbiorcy;\
+                 Nazwa banku odbiorcy;Adres;Kraj;Rachunek odbiorcy;Skrócony numer rachunku;Tytuł;Zlecający;\
+                 Numer telefonu;Operator;Identyfikator doładowania;Numer karty;Miejsce transakcji;Miasto akceptanta;\
+                 Kraj akceptanta;NIP płatnika;Typ identyfikatora uzupełniającego;Identyfikator uzupełniający;\
+                 Typ wpłaty;Deklaracja;Numer deklaracji;Numer decyzji;Typ identyfikatora płatnika;\
+                 Identyfikator płatnika;Symbol formularza lub płatności;Okres;Identyfikator zobowiązania;\
+                 Numer zlecenia nabycia;Fundusz;Subfundusz;Numer rejestru;Numer polisy;Okres;W tym gotówką;\
+                 NIP/NIW;Identyfikator płatności;Numer lokaty;Krótka nazwa;Produkt;Okres;Opcja odsetkowa;\
+                 Opcja zakończenia;Kapitał lokaty;Naliczone odsetki;Odsetki bonusowe;Odsetki;Odsetki obniżone;\
+                 Obniżenie oprocentowania;Podatek od odsetek;Numer referencyjny;Priorytet przelewu;\
+                 Koszty przelewu pokrywa;Numer identyfikacyjny przelewu;Data waluty pierwotnego przelewu;\
+                 Kwota pierwotnego przelewu;Przyczyna zwrotu przelewu;Rachunek operacji;Operacja;Data operacji;\
+                 Data księgowania;Data waluty;Kwota;Kurs wymiany;Odsetki od salda pożyczki;Odsetki karne;Prowizja;\
+                 Kwota przelewu po pobraniu prowizji;Opłata pobrana przez Bank zwracający;Kwota transakcji;Kurs;\
+                 Kwota;Prowizja;Rachunek pobrania prowizji;Saldo po operacji;Opis;Usługa reprezentatywna;\
+                 Identyfikator płatności EE;Numer transakcji BLIK;Adres www sklepu;Opis szczegółowy;\
+                 Numer transakcji;Data zawarcia transakcji;Data rozliczenia transakcji;\
+                 Kwota waluty kupowanej przez Bank;Kwota waluty sprzedawanej przez Bank;Kurs walutowy;\
+                 Numer faktury;NIP odbiorcy;Tekst wolny;Kwota VAT"
