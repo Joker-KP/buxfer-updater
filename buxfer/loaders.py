@@ -22,12 +22,12 @@ def load_qif(file_path):
 def is_integrity_fine(file_path, config=None, encoding=None):
     if config and 'integrity' in config:
         line_index = config['integrity']['line_index']
-        line_content = config['integrity']['line_content']
+        line_expected = config['integrity']['line_content']
         encoding = autodetect_encoding(file_path) if encoding is None else encoding
         with open(file_path, "rt", encoding=encoding) as dataset:
             lines = dataset.read().splitlines()
-            actual_line = lines[line_index]
-            return actual_line == line_content
+            line_actual = lines[line_index]
+            return line_actual == line_expected
     return True
 
 

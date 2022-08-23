@@ -20,7 +20,7 @@ converter:
 # (you will not get rubbish uploaded when bank decides to change the order of columns in their CSV). Optional.
 integrity:
   line_index: 0
-  line_content: "Z rachunku;Kategoria transakcji;Zlecona w;Rodzaj transakcji;Numer rachunku;Nadawca;Adres;\
+  line_content: "Na rachunek;Kategoria transakcji;Zlecona w;Rodzaj transakcji;Numer rachunku;Nadawca;Adres;\
                  Kraj;Rachunek nadawcy;Skrócony numer rachunku;Odbiorca;BIC (kod SWIFT) banku odbiorcy;\
                  Nazwa banku odbiorcy;Adres;Kraj;Rachunek odbiorcy;Skrócony numer rachunku;Tytuł;Zlecający;\
                  Numer telefonu;Operator;Identyfikator doładowania;Numer karty;Miejsce transakcji;Miasto akceptanta;\
