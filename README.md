@@ -108,3 +108,6 @@ python buxsync.py
    (`python byxsync.py --up  my_password`).
    So as not to be surprised next time define `salt` in your config.yaml
    The default is the folder path where BuxSync is stored.
+   
+1. How to start the browser maximized?
+   Use add-on

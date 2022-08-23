@@ -12,18 +12,18 @@ def sample_path():
     base_path = os.path.dirname(__file__) + '/statements'
     return {
         'qif': f'{base_path}/qif-sample.qif',
-        'nest': f'{base_path}/nest-sample.csv',
-        'ca24': f'{base_path}/ca24-sample.csv'
+        'nest-pl': f'{base_path}/nest-pl-sample.csv',
+        'ca24-pl': f'{base_path}/ca24-pl-sample.csv'
     }
 
 
 def test_autodetect_encoding_1250(sample_path):
     # NOTE. chardet made it wrong (did report Windows-1252 here); cchardet does it properly
-    assert autodetect_encoding(sample_path['ca24']).upper() == 'WINDOWS-1250'
+    assert autodetect_encoding(sample_path['ca24-pl']).upper() == 'WINDOWS-1250'
 
 
 def test_autodetect_encoding_utf(sample_path):
-    assert autodetect_encoding(sample_path['nest']).upper() == 'UTF-8'
+    assert autodetect_encoding(sample_path['nest-pl']).upper() == 'UTF-8'
 
 
 def test_all_readers_init():
@@ -33,7 +33,7 @@ def test_all_readers_init():
     assert 'CreditAgricolePl' in readers
 
 
-@pytest.mark.parametrize('parser_id', ['qif', 'nest', 'ca24'])
+@pytest.mark.parametrize('parser_id', ['qif', 'nest-pl', 'ca24-pl'])
 def test_read_content(parser_id, sample_path):
     file_path = sample_path[parser_id]
     value = read_content(file_path, parser_id)

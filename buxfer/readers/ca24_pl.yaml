@@ -1,4 +1,4 @@
-identifier: 'ca24'
+identifier: 'ca24-pl'
 input_extension: '.csv'
 skip_headers: 1
 delimiter: ';'

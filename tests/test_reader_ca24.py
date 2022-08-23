@@ -18,7 +18,7 @@ class TestCreditAgricoleStatementReader:
 
     def test_id(self, reader):
         value = reader.identifier()
-        assert value == 'ca24'
+        assert value == 'ca24-pl'
 
     def test_extension(self, reader):
         value = reader.expected_input_extension()
@@ -42,6 +42,6 @@ class TestCreditAgricoleStatementReader:
 
     @pytest.mark.usefixtures("sample_path")
     def test_process(self, reader, sample_path):
-        value = reader.process_file(sample_path['ca24'])
+        value = reader.process_file(sample_path['ca24-pl'])
         assert reader.qif_header in value
         assert len(value.splitlines()) > 4

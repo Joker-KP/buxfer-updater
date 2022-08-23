@@ -18,7 +18,7 @@ class TestNestStatementReader:
 
     def test_id(self, reader):
         value = reader.identifier()
-        assert value == 'nest'
+        assert value == 'nest-pl'
 
     def test_extension(self, reader):
         value = reader.expected_input_extension()
@@ -42,6 +42,6 @@ class TestNestStatementReader:
 
     @pytest.mark.usefixtures("sample_path")
     def test_process(self, reader, sample_path):
-        value = reader.process_file(sample_path['nest'])
+        value = reader.process_file(sample_path['nest-pl'])
         assert reader.qif_header in value
         assert len(value.splitlines()) > 4

@@ -48,7 +48,7 @@ class StatementReaderBase:
         for field in self.config['fields']:
             self.selected_idx += [field[0]]
             self.selected_names += [field[1]]
-        self.item_type = namedtuple(self.identifier() + '_tuple', self.selected_names)
+        self.item_type = namedtuple(self.identifier().replace('-','_') + '_tuple', self.selected_names)
 
     def identifier(self):
         return self.config['identifier']
