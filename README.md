@@ -14,100 +14,69 @@ Automatically log in to your bank account, download statement file and upload it
 It can automatically sync your accounts by connecting to your bank or credit card and downloading transactions
 and balances. Over 20,000 banks are supported all across the world. Still...
 
-There are many bank account not available for sync in Buxfer. For these ones, you can only manually enter your
+There are many bank accounts not available for sync in Buxfer. For these ones, you can only manually enter your
 transactions or upload a statement (set of transactions) in a format that Buxfer understands.
 
 ...and here comes **BuxSync**
 
 It can use browser add-on (UI.Vision RPA) to replay your login procedure and statement download
 for any bank you wish. Then it can convert it to the format that is known by Buxfer API,
-and uploads the updated transactions to your Buxfer account.
+and upload the updated transactions to your Buxfer account.
 
 **It can make ALL your accounts sync automatically with Buxfer!**
 
-# Environment preparation
+# Configuration
 
-## Tools you need
+1. You need a virtual machine with linux, Python 3 and Firefox + UI.Vision add-on.
+2. Install Python packages and make your Firefox uses empty session each time it is launched.\
+   [**Here**](docs/prepare_environment.md) you can find the list of tools to install and their settings that matter.
+3. Configure BuxSync to use your credentials and customize macros to connect to you bank account(s).\
+   [**BuxSync configuration**](docs/buxsync_configuration.md) document describes all the details.
 
-1. Virtual machine with some Debian based linux distribution, for example 
-   [Ubuntu](https://ubuntu.com/download) 
-   or [AntiX](https://antixlinux.com/download/) (both were tested with this code).
-   You need a desktop OS (headless operations are not supported).
-1. Python 3 and virtual environment 
-   like [Conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
-   or [Miniconda](https://docs.conda.io/en/latest/miniconda.html)
-1. [Firefox](https://www.mozilla.org/firefox/download/) 
-   and [UI.Vision RPA add-on](https://addons.mozilla.org/firefox/addon/rpa)   
-
-## Configuration steps
-
-1. Prepare Python environment
-   ```
-   conda create -n web python=3.9
-   conda activate web
-   pip install -r requirements.txt
-   ```
-1. Configure Firefox to start with empty tab and not to restore previous session. 
-   [screen1] [screen2]
-   Make sure download process does not ask for a filename as input [screen3].
-1. Download this repository.
-1. (optional) Install [UI.Vision XModules](https://ui.vision/rpa/x/download).
-   Set Home Folder of FileAccess.XModule to `uivision-data` in this repo.
-   This will allow you to store your bank login macros on file system (HDD).
-   If you wish to keep them in your browser (as local storage) you do not need it.
-
-1. ...
-
-# BuxSync configuration
-
-1. Prepare UI.Vision add-on script to login and download statement from selected account.
-   
-   First, login to your bank account only with Firefox (within the virtual machine) 
-   and make the browser a trusted devices for your bank (so that further logging in
-   could be automated without 2FA). Then record all your steps (from logging in to 
-   statement download), run and validate your macro manually within UI.Vision RPA add-on.
-
-   Finally, make changes so that to macro could "communicate" with BuxSync.
-   See examples in `uivision-data/macros/accounts` folder. Please mind the step that 
-   prints out the name of file downloaded (`[echo] File downloaded: ...`) as it is important
-   for further processing.
-
-1. Prepare a proper folder for each account you wish to sync with buxfer
-   ...
-
-1. secrets.yaml -> auth data for buxfer; use --updated- ... to save obfuscated password.
-
-1. config.yaml -> turn off files storage if no XModules are installed
-
-# BuxSync running
+# Running BuxSync
 
 Start it within your conda environment just like that:
-```
+```sh
 python buxsync.py
 ```
+
+There are several additional parameters you may provide:
+
+| Parameter name                | Argument is neeeded | Description                                                                                                                                                            |
+|-------------------------------|:-------------------:|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `--updated-buxfer-password`   |         yes         | Encodes your Buxfer account password provided as an argument<br> and writes it to `secrets.yaml` in obfuscated form.                                                      |
+| `--no-download`               |          no         | Do not download statements from bank account.<br> Useful for testing upload functionality (assuming you provide<br> a manually downloaded files in a proper `data` sub-folder. |
+| `--no-upload`                 |          no         | Do not upload statements to Buxfer account.<br> Useful while testing the download<br> and conversion process only.                                                             |
+| `--folder-filter`             |         yes         | Process only folders that include value<br> passed as argument here (an inclusive filter).                                                                                 |
+
 
 # FAQ
 
 1. Why don't you use Selenium for logging in and statement downloads?
    
-   I wish I could. Some bank online services are secured from automation tools
-   ... (link)
+   > I wish I could. Some bank online services are secured from automation tools
+   TODO... (link)
    
 1. Is there a headless mode available?
    
-   No...
+   > No... TODO
 
 1. How to make the script run when the virtual machine boots up?
    
-   There is a script you could ues for that...
-   See details in your distribution docs...
+   > There is a script you could ues for that...
+   See details in your distribution docs... TODO
    
-1. I moved the solution into another folder and now cannot login to Buxfer
+1. I moved the solution into another folder and now the script cannot 
+   log in to my Buxfer account. How to fix it?
    
-   Simply recreate your obfuscated Buxfer password in secrets.yaml 
-   (`python byxsync.py --up  my_password`).
-   So as not to be surprised next time define `salt` in your config.yaml
-   The default is the folder path where BuxSync is stored.
+   > Simply recreate your obfuscated Buxfer password in secrets.yaml 
+   (`python buxsync --updated-buxfer-password my_super_password`).
+   So as not to be surprised next time in the same scenario: 
+   define `salt` in your `config.yaml` (before recreating obfuscated password). 
+   The default value is the folder path where BuxSync is stored.
    
-1. How to start the browser maximized?
-   Use add-on
+1. How to start the browser maximized? Sometimes an element on page cannot be found
+   by UI.Vision add-on because of different window size. If the browser could start
+   maximized, it would help a lot.
+   
+   > You can use an additional [Firefox add-on](https://addons.mozilla.org/en-US/firefox/addon/maximize-all-windows-minimal/) for that.
