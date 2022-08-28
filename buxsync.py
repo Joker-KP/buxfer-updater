@@ -9,6 +9,7 @@ import clize
 from buxfer.api import Buxfer
 from buxfer.reader_selector import read_content
 from config import Configuration, buxfer_auth_data, update_secrets
+from history import History
 from uivision.launcher import download_statement
 
 LOG_LEVELS = {
@@ -70,19 +71,23 @@ def get_account_folders(account_data_dir: str, folder_filter=''):
 
 
 def folders_walk(buxfer_api, config):
+    history = History(f'{config.account_data_dir}/history.yaml')
     folders = get_account_folders(config.account_data_dir, config.folder_filter)
     for folder in folders:
         account_id = folder['account_id']
         parser_identifier = folder['reader_id']
         logging.info(f"- Folder check: {folder['name']} (id: {account_id}, format: {parser_identifier})")
+        history.log_start(account_id, folder['name'], parser_identifier)
 
         # download new statement from online bank
         account_folder = f"{config.account_data_dir}/{folder['entry']}"
         if not config.no_download:
             try:
-                download_statement(account_folder, account_id, config)
-            except Exception:
+                status, msg, basename = download_statement(account_folder, account_id, config)
+                history.log_download_result(account_id, status, msg, basename)
+            except Exception as e:
                 logging.error("Exception occurred while statement download", exc_info=True)
+                history.log_download_result(account_id, False, str(e), None)
 
         # keep existing hashes
         md5file = f"{account_folder}/md5s.txt"
@@ -106,8 +111,12 @@ def folders_walk(buxfer_api, config):
                                 # // if ok -> keep md5 (no further uploads of this file)
                                 logging.info("-- Upload OK")
                                 md5content += f"{md5hash}\n"
-                    except Exception:
+                                history.log_upload_result(account_id, True, "OK", entry)
+                            else:
+                                history.log_upload_result(account_id, False, "Bad status", entry)
+                    except Exception as e:
                         logging.error("Exception occurred while processing for upload", exc_info=True)
+                        history.log_upload_result(account_id, False, str(e), entry)
 
         if md5orig != md5content:
             with open(md5file, "w") as file:

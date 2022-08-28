@@ -18,7 +18,7 @@ def download_statement(account_folder, account_id, config):
                               browser_path=config.browser_bin)
     if 'file' not in ui_result:
         logging.error("Problem with UI.Vision result:", ui_result['status'])
-        return
+        return False, ui_result['status'], None
 
     # move to the right place for upload
     downloaded = ui_result['file']
@@ -26,6 +26,7 @@ def download_statement(account_folder, account_id, config):
     target = os.path.join(account_folder, basename)
     os.rename(downloaded, target)
     logging.debug(f'Downloaded file moved from {downloaded} to {target}.')
+    return True, ui_result['status'], basename
 
 
 def play_and_wait(macro, timeout_seconds=10, use_file_storage=True, keep_logs=True,
