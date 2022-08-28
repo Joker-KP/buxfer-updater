@@ -1,3 +1,4 @@
+import logging
 import os
 
 import cryptocode
@@ -15,6 +16,7 @@ class Configuration:
         self.folder_filter = self.get_key('general', 'folder_filter', '')
         self.no_download = self.get_key('general', 'no_download', False)
         self.no_upload = self.get_key('general', 'no_upload', False)
+        self.log_level = self.get_key('general', 'log_level', False)
         self.browser_bin = self.get_key('browser', 'exec', get_ff_binary())
         self.browser_download_dir = self.get_key('browser', 'download_dir', get_ff_download_dir())
         self.ui_vision_init_html = os.path.abspath(self.get_key('uivision', 'init_file', 'uivision/ui.vision.html'))
@@ -35,6 +37,7 @@ def update_secrets(passphrase, salt):
     encoded = cryptocode.encrypt(passphrase, salt)
     username, _ = buxfer_auth_data(salt)
     secrets = {'buxfer_account': {'login': username, 'password': encoded}}
+    logging.debug('Updating password in secrets.yaml')
     with open('secrets.yaml', 'w') as f:
         yaml.dump(secrets, f, sort_keys=False, default_flow_style=False)
     return encoded
@@ -44,7 +47,7 @@ def buxfer_auth_data(salt):
     with open('secrets.yaml', 'r') as file:
         data = yaml.safe_load(file)
     if 'buxfer_account' not in data:
-        print("Missing username and password in secrets.yaml")
+        logging.error("Missing username and password in secrets.yaml")
         return None, None
     user = data['buxfer_account']['login']
     encoded_pass = data['buxfer_account']['password']

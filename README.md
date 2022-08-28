@@ -27,11 +27,12 @@ and upload the updated transactions to your Buxfer account.
 
 # Configuration
 
-1. You need a virtual machine with linux, Python 3 and Firefox + UI.Vision add-on.
+1. You need a virtual machine with linux, Python 3 and Firefox + UI.Vision add-on.\
+   Check details: [Environment preparation](docs/prepare_environment.md).
 2. Install Python packages and make your Firefox uses empty session each time it is launched.\
-   [**Here**](docs/prepare_environment.md) you can find the list of tools to install and their settings that matter.
+   Check details: [Environment preparation](docs/prepare_environment.md) (list of tools to install and their settings that matter).
 3. Configure BuxSync to use your credentials and customize macros to connect to you bank account(s).\
-   [**BuxSync configuration**](docs/buxsync_configuration.md) document describes all the details.
+   See details in [**BuxSync configuration**](docs/buxsync_configuration.md) document.
 
 # Running BuxSync
 
@@ -42,12 +43,12 @@ python buxsync.py
 
 There are several additional parameters you may provide:
 
-| Parameter name                | Argument is neeeded | Description                                                                                                                                                            |
-|-------------------------------|:-------------------:|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `--updated-buxfer-password`   |         yes         | Encodes your Buxfer account password provided as an argument<br> and writes it to `secrets.yaml` in obfuscated form.                                                      |
-| `--no-download`               |          no         | Do not download statements from bank account.<br> Useful for testing upload functionality (assuming you provide<br> a manually downloaded files in a proper `data` sub-folder. |
-| `--no-upload`                 |          no         | Do not upload statements to Buxfer account.<br> Useful while testing the download<br> and conversion process only.                                                             |
-| `--folder-filter`             |         yes         | Process only folders that include value<br> passed as argument here (an inclusive filter).                                                                                 |
+| Parameter&nbsp;name&nbsp;     | Argument needed     | Description                                                                                                                                                                        |
+|-------------------------------|:-------------------:|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `--updated-buxfer-password`   |         yes         | Encodes your Buxfer account password provided<br> as an argument and writes it to `secrets.yaml`<br> in obfuscated form.                                                           |
+| `--no-download`               |          no         | Do not download statements from bank account.<br> Useful for testing upload functionality (assuming<br> you provide a manually downloaded files<br> in a proper `data` sub-folder. |
+| `--no-upload`                 |          no         | Do not upload statements to Buxfer account.<br> Useful while testing the download<br> and conversion process only.                                                                 |
+| `--folder-filter`             |         yes         | Process only folders that include value<br> passed as argument here (an inclusive filter).                                                                                         |
 
 
 # FAQ

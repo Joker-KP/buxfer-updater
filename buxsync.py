@@ -1,4 +1,5 @@
 import hashlib
+import logging
 import os
 import re
 import sys
@@ -9,6 +10,26 @@ from buxfer.api import Buxfer
 from buxfer.reader_selector import read_content
 from config import Configuration, buxfer_auth_data, update_secrets
 from uivision.launcher import download_statement
+
+LOG_LEVELS = {
+    'critical': logging.CRITICAL,
+    'error': logging.ERROR,
+    'warning': logging.WARNING,
+    'info': logging.INFO,
+    'debug': logging.DEBUG,
+}
+
+
+def setup_logging(log_level=logging.INFO):
+    logging.basicConfig(
+        level=log_level,
+        filename='buxsync.log',
+        format='%(asctime)s [%(levelname)s] %(message)s',
+    )
+    console = logging.StreamHandler()
+    console.setLevel(log_level)
+    console.setFormatter(logging.Formatter('[%(levelname)7s] %(message)s'))
+    logging.getLogger('').addHandler(console)
 
 
 def md5(file_path: str):
@@ -53,12 +74,15 @@ def folders_walk(buxfer_api, config):
     for folder in folders:
         account_id = folder['account_id']
         parser_identifier = folder['reader_id']
-        print(f"Folder check: {folder['name']} (id: {account_id}, format: {parser_identifier})")
+        logging.info(f"- Folder check: {folder['name']} (id: {account_id}, format: {parser_identifier})")
 
         # download new statement from online bank
         account_folder = f"{config.account_data_dir}/{folder['entry']}"
         if not config.no_download:
-            download_statement(account_folder, account_id, config)
+            try:
+                download_statement(account_folder, account_id, config)
+            except Exception:
+                logging.error("Exception occurred while statement download", exc_info=True)
 
         # keep existing hashes
         md5file = f"{account_folder}/md5s.txt"
@@ -74,13 +98,16 @@ def folders_walk(buxfer_api, config):
             if os.path.isfile(statement_file) and entry != "md5s.txt":
                 md5hash = md5(statement_file)
                 if md5hash not in md5content:
-                    statement_content = read_content(statement_file, parser_identifier)
-                    if not config.no_upload:
-                        print(f"-- Uploading {entry}...", end='')
-                        if buxfer_api.upload_statement(account_id, statement_content):
-                            # // if ok -> keep md5 (no further uploads of this file)
-                            print("OK")
-                            md5content += f"{md5hash}\n"
+                    try:
+                        statement_content = read_content(statement_file, parser_identifier)
+                        if not config.no_upload:
+                            logging.info(f"-- Uploading {entry}...")
+                            if buxfer_api.upload_statement(account_id, statement_content):
+                                # // if ok -> keep md5 (no further uploads of this file)
+                                logging.info("-- Upload OK")
+                                md5content += f"{md5hash}\n"
+                    except Exception:
+                        logging.error("Exception occurred while processing for upload", exc_info=True)
 
         if md5orig != md5content:
             with open(md5file, "w") as file:
@@ -103,6 +130,7 @@ def main(*,
     :param updated_buxfer_password: password to be encoded (with salt) and stored in secrets.yaml
     """
     config = Configuration()
+    setup_logging(LOG_LEVELS[config.log_level])
     if no_download:
         config.no_download = True
     if no_upload:
@@ -113,7 +141,7 @@ def main(*,
         update_secrets(updated_buxfer_password, config.salt)
         return
 
-    print('Started...')
+    logging.info(f'Started... (log level: {config.log_level})')
     username, password = buxfer_auth_data(config.salt)
     buxfer_api = Buxfer(username, password)
     if buxfer_api.is_logged_in():

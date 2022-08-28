@@ -3,6 +3,7 @@ general:
   folder_filter: ''         # when set includes in processing only folders that contain given filter
   no_upload: false          # if true statements won't be uploaded to Buxfer
   no_download: false        # if true statements won't be downloaded from bank accounts
+  log_level: 'info'         # 'critical', 'error', 'warning', 'info', or 'debug'
 uivision:
   account_timeout: 120      # in seconds
   use_file_storage: true    # if false all UI Vision scripts should be available in browser storage

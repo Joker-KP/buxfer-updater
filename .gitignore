@@ -3,6 +3,7 @@ uivision-data/macros/accounts/*.json
 uivision-data/screenshots/
 uivision-data/images/
 uivision-data/logs/
+buxsync.log
 
 ### Python template
 # Byte-compiled / optimized / DLL files

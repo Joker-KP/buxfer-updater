@@ -1,9 +1,12 @@
 import datetime
+import logging
 import os
 import re
 import string
 import subprocess
 import time
+
+from tqdm import tqdm
 
 
 def download_statement(account_folder, account_id, config):
@@ -14,7 +17,7 @@ def download_statement(account_folder, account_id, config):
                               path_autorun_html=config.ui_vision_init_html,
                               browser_path=config.browser_bin)
     if 'file' not in ui_result:
-        print("Problem with UI.Vision result:", ui_result['status'])
+        logging.error("Problem with UI.Vision result:", ui_result['status'])
         return
 
     # move to the right place for upload
@@ -22,6 +25,7 @@ def download_statement(account_folder, account_id, config):
     basename = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '__' + os.path.basename(downloaded)
     target = os.path.join(account_folder, basename)
     os.rename(downloaded, target)
+    logging.debug(f'Downloaded file moved from {downloaded} to {target}.')
 
 
 def play_and_wait(macro, timeout_seconds=10, use_file_storage=True, keep_logs=True,
@@ -32,7 +36,7 @@ def play_and_wait(macro, timeout_seconds=10, use_file_storage=True, keep_logs=Tr
 
     log = 'log_' + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.txt'
     log_full_path = os.path.join(path_download_dir, log)
-    # print("Log file will show up at " + log_full_path)
+    logging.debug("Expecting UI.Vision log file to appear at " + log_full_path)
 
     storage = "xfile" if use_file_storage else "browser"
     args = f'file:///{path_autorun_html}?macro={macro}' + \
@@ -42,14 +46,14 @@ def play_and_wait(macro, timeout_seconds=10, use_file_storage=True, keep_logs=Tr
     proc = subprocess.Popen([browser_path, args], stdout=ff_stdout, stderr=ff_stderr)
 
     runtime_seconds = 0
-    print("-- Statement downloading...")
-    print("-- .", end='')
-    while not os.path.exists(log_full_path) and runtime_seconds < timeout_seconds:
-        # print(f"Waiting for macro to finish, ({runtime_seconds} of {timeout_seconds} seconds)")
-        print(".", end='')
-        time.sleep(1)
-        runtime_seconds += 1
-    print(f" ({runtime_seconds} secs)")
+    logging.info("-- Statement downloading...")
+    with tqdm(total=timeout_seconds, desc='[       ] Waiting for macro to finish',
+              bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt} {elapsed}') as p_bar:
+        while not os.path.exists(log_full_path) and runtime_seconds < timeout_seconds:
+            time.sleep(1)
+            runtime_seconds += 1
+            p_bar.update(1)
+    logging.info(f"-- It took {runtime_seconds} secs to download")
 
     result = {}
     if runtime_seconds < timeout_seconds:

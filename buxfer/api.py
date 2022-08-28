@@ -1,3 +1,5 @@
+import logging
+
 import requests
 
 
@@ -27,9 +29,11 @@ class Buxfer:
             'userid': user,
             'password': password
         }
+        logging.debug(f'Buxfer log in for user {data["userid"]}')
         with requests.post(self.LOGIN_URL.format(self.BASE_URL), json=data) as response:
             response = self.check_error(response)
             self.token = response['token']
+            logging.debug(f'Token received: {self.token[0:8]}...')
 
     def is_logged_in(self):
         return self.token is not None
@@ -47,6 +51,8 @@ class Buxfer:
             'statement': statement,
             'dateFormat': "DD/MM/YY",
         }
+        partial_statement = data["statement"][0:30].replace('\n', '^')
+        logging.debug(f'Buxfer upload to account {data["accountId"]} statement: "{partial_statement}..."')
         with requests.post(self.UPLOAD_URL.format(self.BASE_URL), json=data) as response:
             response = self.check_error(response)
             return response['status'] == 'OK'
