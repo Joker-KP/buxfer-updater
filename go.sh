@@ -4,9 +4,12 @@
 # To achieve that in AntiX you may place the line below in ~/.desktop-session file:
 # roxterm -e ~/path_to_buxsync/go.sh &
 
-echo "BuxSync - transactions update script for manual accounts"
+echo "BuxSync. You have 10 seconds to terminate the script (Ctrl-C)."
+sleep 10
+
+echo "BuxSync. Transactions update script for manual accounts."
 source ~/miniconda3/bin/activate web
-cd ~/git/buxfer-updater/
+cd "$(dirname "$(readlink -f "$0")")"
 python buxsync.py
 
 # To be able to shutdown operating system without password prompt:
