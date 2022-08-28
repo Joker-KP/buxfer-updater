@@ -17,7 +17,7 @@ def download_statement(account_folder, account_id, config):
                               path_autorun_html=config.ui_vision_init_html,
                               browser_path=config.browser_bin)
     if 'file' not in ui_result:
-        logging.error("Problem with UI.Vision result:", ui_result['status'])
+        logging.error("Problem with UI.Vision result:" + ui_result['status'])
         return False, ui_result['status'], None
 
     # move to the right place for upload
