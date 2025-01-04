@@ -3,6 +3,7 @@ import logging
 import os
 import re
 import sys
+import time
 
 import clize
 
@@ -121,6 +122,9 @@ def folders_walk(buxfer_api, config):
         if md5orig != md5content:
             with open(md5file, "w") as file:
                 file.write(md5content)
+
+        # additional time for sync
+        time.sleep(2)
 
 
 def main(*,

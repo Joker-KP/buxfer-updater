@@ -1,0 +1,18 @@
+identifier: 'sant-pl'
+input_extension: '.csv'
+skip_headers: 1
+delimiter: ','
+fields:
+  - [ 0, 'operation_book_date' ]
+  - [ 1, 'operation_date' ]
+  - [ 2, 'title' ]
+  - [ 3, 'recipient' ]
+  - [ 4, 'account_no' ]
+  - [ 5, 'amount' ]
+  - [ 6, 'total_after' ]
+  - [ 7, 'number' ]
+converter:
+  amount_source: 'amount'
+  date_source: 'operation_date'
+  date_input_format: '%d-%m-%Y'
+  description_source: '{title}     {recipient} {account_no}'

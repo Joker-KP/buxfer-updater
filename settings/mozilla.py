@@ -7,14 +7,21 @@ class MozillaSettings:
 
     def __init__(self, preferences_file=None):
         if preferences_file is None:
-            profiles_file = os.path.expanduser("~/.mozilla/firefox/profiles.ini")
-            if os.path.isfile(profiles_file):
-                with open(profiles_file, "r") as f:
-                    content = f.read().splitlines()
-                    for line in content:
-                        matches = re.match(r'Default=([\w]+.+)', line)
-                        if matches:
-                            self.file = os.path.join(os.path.expanduser("~/.mozilla/firefox/"), matches[1], "prefs.js")
+            paths = ["~/.mozilla/firefox/", "~/snap/firefox/common/.mozilla/firefox/"]
+            for path in paths:
+                profiles_file = os.path.expanduser(path + "profiles.ini")
+                if os.path.isfile(profiles_file):
+                    with open(profiles_file, "r") as f:
+                        content = f.read().splitlines()
+                        for line in content:
+                            matches = re.match(r'Default=(\w+.+)', line)
+                            if matches:
+                                self.file = os.path.join(os.path.expanduser(path), matches[1], "prefs.js")
+                                break
+                            matches = re.match(r'Path=(\w+.+)', line)
+                            if matches:
+                                self.file = os.path.join(os.path.expanduser(path), matches[1], "prefs.js")
+                                break
         else:
             self.file = preferences_file
 

@@ -13,6 +13,7 @@ def sample_path():
     return {
         'qif': f'{base_path}/qif-sample.qif',
         'nest-pl': f'{base_path}/nest-pl-sample.csv',
+        'sant-pl': f'{base_path}/sant-pl-sample.csv',
         'ca24-pl': f'{base_path}/ca24-pl-sample.csv'
     }
 
@@ -26,14 +27,19 @@ def test_autodetect_encoding_utf(sample_path):
     assert autodetect_encoding(sample_path['nest-pl']).upper() == 'UTF-8'
 
 
+def test_autodetect_encoding_utf_2(sample_path):
+    assert autodetect_encoding(sample_path['sant-pl']).upper() == 'UTF-8'
+
+
 def test_all_readers_init():
     readers = [r.__class__.__name__ for r in all_readers()]
     assert len(readers) >= 2
     assert 'NestPl' in readers
+    assert 'SantPl' in readers
     assert 'CreditAgricolePl' in readers
 
 
-@pytest.mark.parametrize('parser_id', ['qif', 'nest-pl', 'ca24-pl'])
+@pytest.mark.parametrize('parser_id', ['qif', 'nest-pl', 'sant-pl', 'ca24-pl'])
 def test_read_content(parser_id, sample_path):
     file_path = sample_path[parser_id]
     value = read_content(file_path, parser_id)

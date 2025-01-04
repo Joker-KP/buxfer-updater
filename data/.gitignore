@@ -1,7 +1,8 @@
 history.yaml
-ca - vip \[1375683;ca24-pl\]/
-citi - ccard \[1373670;qif\]/
-citi - priority \[1375122;qif\]/
-nest \[1375686;nest-pl\]/
-nest - family \[1375688;nest-pl\]/
-nest - savings \[1375687;nest-pl\]/
+citi - karta \[1373730;qif\]/
+citi - priority \[1373729;qif\]/
+nest \[1375691;nest-pl\]/
+nest - family \[1375693;nest-pl\]/
+nest - savings \[1375692;nest-pl\]/
+sant \[1373702;sant-pl\]/
+sant - system \[1373704;sant-pl\]/
