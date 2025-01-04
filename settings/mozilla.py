@@ -17,11 +17,14 @@ class MozillaSettings:
                             matches = re.match(r'Default=(\w+.+)', line)
                             if matches:
                                 self.file = os.path.join(os.path.expanduser(path), matches[1], "prefs.js")
-                                break
+                                return
+                    with open(profiles_file, "r") as f:
+                        content = f.read().splitlines()
+                        for line in content:
                             matches = re.match(r'Path=(\w+.+)', line)
                             if matches:
                                 self.file = os.path.join(os.path.expanduser(path), matches[1], "prefs.js")
-                                break
+                                return
         else:
             self.file = preferences_file
 
